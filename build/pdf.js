@@ -7894,7 +7894,7 @@ var fakeWorkerFilesLoader = null;
   if (!fallbackWorkerSrc && typeof document !== 'undefined') {
     var pdfjsFilePath = document.currentScript && document.currentScript.src;
     if (pdfjsFilePath) {
-      fallbackWorkerSrc = pdfjsFilePath.replace(/(\.(?:min\.)?js)(\?.*)?$/i, '.worker$1$2');
+      fallbackWorkerSrc = pdfjsFilePath.replace(/(\.(?:min\.)?js)(\?.*)?$/i, '.worker$1$2').replace(/build\./, 'pdf.');
     }
   }
 }
