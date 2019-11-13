@@ -7860,9 +7860,9 @@ var fakeWorkerFilesLoader = null;
     if (typeof require.ensure === 'undefined') {
       require.ensure = require('node-ensure');
     }
-    useRequireEnsure = true;
+    // useRequireEnsure = true;
   } else if (typeof require !== 'undefined' && typeof require.ensure === 'function') {
-    useRequireEnsure = true;
+    // useRequireEnsure = true;
   }
   if (typeof requirejs !== 'undefined' && requirejs.toUrl) {
     fallbackWorkerSrc = requirejs.toUrl('pdf.worker.js');
@@ -7874,7 +7874,7 @@ var fakeWorkerFilesLoader = null;
       require.ensure([], function () {
         try {
           var worker = void 0;
-          worker = require('./pdf.worker.js');
+          worker = require('/pdf.worker.js');
           console.log('Test2 ', worker)
           resolve(worker.WorkerMessageHandler);
         } catch (ex) {
