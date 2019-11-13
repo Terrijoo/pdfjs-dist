@@ -7864,6 +7864,36 @@ var fakeWorkerFilesLoader = null;
   } else if (typeof require !== 'undefined' && typeof require.ensure === 'function') {
     useRequireEnsure = true;
   }
+  if (typeof requirejs !== 'undefined' && requirejs.toUrl) {
+    fallbackWorkerSrc = requirejs.toUrl('pdf.worker.js');
+    console.log('Test1 ', fallbackWorkerSrc)
+  }
+  var dynamicLoaderSupported = typeof requirejs !== 'undefined' && requirejs.load;
+  fakeWorkerFilesLoader = useRequireEnsure ? function () {
+    return new Promise(function (resolve, reject) {
+      require.ensure([], function () {
+        try {
+          var worker = void 0;
+          worker = require('./pdf.worker.js');
+          console.log('Test2 ', worker)
+          resolve(worker.WorkerMessageHandler);
+        } catch (ex) {
+          reject(ex);
+        }
+      }, reject, 'pdfjsWorker');
+    });
+  } : dynamicLoaderSupported ? function () {
+    return new Promise(function (resolve, reject) {
+      console.log('Test3 ')
+      requirejs(['pdf.worker'], function (worker) {
+        try {
+          resolve(worker.WorkerMessageHandler);
+        } catch (ex) {
+          reject(ex);
+        }
+      }, reject);
+    });
+  } : null;
   if (!fallbackWorkerSrc && typeof document !== 'undefined') {
     var pdfjsFilePath = document.currentScript && document.currentScript.src;
     if (pdfjsFilePath) {
